@@ -1,0 +1,42 @@
+%form{:method => "POST", :action => '/comment'}
+  %input{:type => "hidden", :name => "_method", :value => "PUT"}
+  %table
+    %tr
+      %td 名前
+      %td 
+        %input{:type => "text", :name => "name"}
+    %tr
+      %td コメントID
+      %td
+        %input{:type => 'text', :name => 'comment_id'}
+    %tr
+      %td タイトル
+      %td
+        %input{:type => "text", :name => "title"}
+    %tr
+      %td 内容
+      %td
+        %textarea{:name => "message", :cols => 60, :rows => 8}
+    %tr
+      %td
+      %td
+        %input{:type => "submit"}
+
+- @comments.each do |comment|
+  .comment
+    %h2= "No. #{comment.id} #{h comment.title}"
+    .info{:style => 'padding-left:100px'}
+      %span.name= h comment.name
+      %span.date== (#{h comment.date})
+
+    .message
+      = comment.formated_message
+
+    .reply_list
+      - comment.replies.each do |c|
+        .reply
+          %span{:style => "padding-left:#{c.deep * 50}px"}
+          %span.name= h c.id
+          %span.name= h c.name
+          %span.message= h c.message
+    %hr
