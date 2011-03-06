@@ -1,8 +1,11 @@
+require 'haml'
 require 'sinatra'
 require 'sequel'
+require 'logger'
 
 Sequel::Model.plugin(:schema)
-Sequel.connect("sqlite://db/comments.db")
+db = Sequel.connect("sqlite://db/comments.db")
+db.loggers << Logger.new($stderr)
 
 require './model/comment'
 
